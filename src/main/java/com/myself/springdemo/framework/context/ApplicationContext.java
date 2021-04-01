@@ -115,14 +115,12 @@ public class ApplicationContext implements BeanFactory {
 			AutoWired annotation = field.getAnnotation(AutoWired.class);
 			String autoWiredBeanName = annotation.value().trim();
 			if ("".equals(autoWiredBeanName)) {
-				autoWiredBeanName = field.getName();
+				autoWiredBeanName = field.getType().getTypeName();
 			}
-			System.out.println(autoWiredBeanName);
 
 			field.setAccessible(true);
 
 			try {
-				System.out.println("===============" + instance + "," + this.beanWrapperMap.get(autoWiredBeanName));
 				field.set(instance, this.beanWrapperMap.get(autoWiredBeanName).getWrapperInstance());
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();

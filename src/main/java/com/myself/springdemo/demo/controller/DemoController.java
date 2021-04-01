@@ -17,7 +17,6 @@ public class DemoController {
 
 	@RequestMapping("/query.json")
 	public String query(HttpServletResponse response, HttpServletRequest request, @RequestParam("name") String name) {
-
 		return demoService.getName(name);
 	}
 
