@@ -1,6 +1,5 @@
 package com.myself.springdemo.framework.context;
 
-import com.myself.springdemo.demo.controller.DemoController;
 import com.myself.springdemo.framework.annotation.AutoWired;
 import com.myself.springdemo.framework.annotation.Controller;
 import com.myself.springdemo.framework.annotation.Service;
@@ -14,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ApplicationContext implements BeanFactory {
@@ -141,8 +141,6 @@ public class ApplicationContext implements BeanFactory {
 		// 依赖注入（lazy-init=true要执行依赖注入）
 		// 在这里调用getBean()
 		doAutoWired();
-		DemoController demoController = (DemoController)this.getBean("com.myself.springdemo.demo.controller.DemoController");
-		System.out.println(demoController.query(null, null, "老王"));
 	}
 
 	// 将BeanDefinition注册到IOC容器beanDefinitionMap中
@@ -181,6 +179,20 @@ public class ApplicationContext implements BeanFactory {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String[] getBeanDefinitionNames() {
+		return this.beanDefinitionMap.keySet().// 取出所有的key
+				//  Set.toArray()默认返回Object数组，传了new String[]数组则返回String数组，括号内为规定的数组长度
+						toArray(new String[this.beanDefinitionMap.size()]);
+	}
+
+	public int getBeanDefinitionCount() {
+		return this.beanDefinitionMap.size();
+	}
+
+	public Properties getConfig() {
+		return this.reader.getConfig();
 	}
 
 }
